@@ -48,9 +48,8 @@ function(req, res) {
 # Programmatically alter your API
 #* @plumber
 function(pr) {
-    pr |> 
-      # Overwrite the default serializer to return unboxed JSON
-      # pr_set_serializer(serializer_unboxed_json())
-      # add API specification file; customize the look of the API
-      pr_set_api_spec(yaml::read_yaml("../penguin-api.yaml"))
+  pr |> 
+    # add API specification file; customize the look of the API
+    # provides the ability to input/modify prediction data within the API
+    pr_set_api_spec(yaml::read_yaml("../penguin-api.yaml"))
 }
