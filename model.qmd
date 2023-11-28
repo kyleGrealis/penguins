@@ -23,15 +23,18 @@ execute:
   warning: false
 ---
 
+# Use the Palmer Penguins dataset to predict species
+
+## Load libraries
+
 ```{r}
 # Load libraries
 library(tidyverse)
 library(palmerpenguins)
 library(parsnip)
-
 ```
 
-## Model Fit
+## Model fit
 ```{r}
 model <- rand_forest(mode = "classification") |>
   set_engine("ranger") |>
@@ -39,7 +42,14 @@ model <- rand_forest(mode = "classification") |>
   fit(species ~ ., data = penguins)
 ```
 
+## Model summary
 ```{r}
 model
+```
+
+## Save the model object
+```{r}
+# save the model as rds
+saveRDS(model, "model.rds")
 ```
 
