@@ -25,6 +25,7 @@ model <- readRDS("../model.rds")
 #   type = "prob"
 # )
 
+# Write the API ----
 #* @apiTitle Penguin Plumber API
 #* @apiDescription API to the penguin random forest model.
 
@@ -40,7 +41,7 @@ status <- function() {
 #* Predict penguin species
 #* @post /predict
 function(req, res) {
-    predict(model, new_data = req$body, type = "prob")
+    predict(model, new_data = as.data.frame(req$body), type = "prob")
 }
 
 
@@ -51,5 +52,5 @@ function(pr) {
       # Overwrite the default serializer to return unboxed JSON
       # pr_set_serializer(serializer_unboxed_json())
       # add API specification file; customize the look of the API
-      pr_set_api_spec_file(yaml::read_yaml("penguin-api.yaml"))
+      pr_set_api_spec(yaml::read_yaml("../penguin-api.yaml"))
 }

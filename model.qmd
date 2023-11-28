@@ -43,13 +43,20 @@ library(palmerpenguins)
 library(parsnip)
 ```
 
+## Modify penguins dataset 
+```{r}
+penguins_filtered <- penguins |> 
+  select(-island, -year, -sex)
+```
+
+
 ## Model fit
 
 ```{r}
 model <- rand_forest(mode = "classification") |>
   set_engine("ranger") |>
   set_mode("classification") |>
-  fit(species ~ ., data = penguins)
+  fit(species ~ ., data = penguins_filtered)
 ```
 
 ## Model summary
