@@ -1,0 +1,45 @@
+---
+title: "Palmer Penguins modeling"
+# subtitle: "<subtitle>"
+date: last-modified
+author: "[Kyle Grealis](https://github.com/kyleGrealis/)"
+format: 
+  html:
+    toc: true
+    toc-title: " "
+    toc-location: left
+    self-contained: true
+    css: styles.scss
+    theme: sandstone
+    code-tools: true
+    code-copy: true
+    code-fold: true
+    code-summary: "Show code"
+    page-layout: full
+    grid: 
+      margin-width: 0px
+execute: 
+  # echo: false
+  warning: false
+---
+
+```{r}
+# Load libraries
+library(tidyverse)
+library(palmerpenguins)
+library(parsnip)
+
+```
+
+## Model Fit
+```{r}
+model <- rand_forest(mode = "classification") |>
+  set_engine("ranger") |>
+  set_mode("classification") |>
+  fit(species ~ ., data = penguins)
+```
+
+```{r}
+model
+```
+

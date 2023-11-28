@@ -1,0 +1,55 @@
+/*
+This section is for creating a table header that remains fixed as the output
+box scrolls. It will have gray background and black bordering
+*/
+
+.sticky-table {
+  max-height: 600px;
+  width: 750px;
+  overflow: auto;
+  border: 1.5px solid gray;
+  padding: 1.5%;
+  box-sizing: border-box; /* Include padding and border in element's total width and height */
+}
+
+.sticky-table table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.sticky-table th {
+  background-color: #D3D3D3;
+  color: black;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  border-top: 2pt solid black;
+  border-bottom: 1pt solid black;
+  padding: 0.5ex 1.5ex;
+}
+
+.sticky-table tbody {
+  overflow-y: auto;
+  max-height: calc(100% - 2.5em); /* Subtract height of table header (2.5em = 2 * 1.25em) */
+}
+
+.sticky-table td, .sticky-table th {
+  padding: 0.5ex 1.5ex;
+}
+
+.sticky-table .cell-output-display {
+  overflow-x: unset !important;
+}
+
+.Rtable1 th {
+  background-color: #D3D3D3;
+  color: black;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  border-top: 2pt solid black;
+  border-bottom: 1pt solid black;
+  padding: 0.5ex 1.5ex;
+}
