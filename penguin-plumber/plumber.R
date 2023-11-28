@@ -7,39 +7,49 @@
 #    https://www.rplumber.io/
 #
 
+# for api
 library(plumber)
 library(glue)
 
-#* @apiTitle Plumber Example API
-#* @apiDescription Plumber example description.
+# for model
+library(parsnip)
+library(ranger)
 
-#* Echo back the input
-#* @param msg The message to echo
-#* @get /echo
-function() {
-    list(msg = glue::glue("If you're reading this, the API is working!"))
+# Goal ----
+model <- readRDS("../model.rds")
+
+# random forest model
+# predict(
+#   model, 
+#   newdata = jsonlite::read_json("penguins.json", simplifyVector = TRUE), 
+#   type = "prob"
+# )
+
+#* @apiTitle Penguin Plumber API
+#* @apiDescription API to the penguin random forest model.
+
+#* Health check -- is the API running?
+#* @get /health-check
+status <- function() {
+    list(
+      msg = glue::glue("If you're reading this, the API is working!"),
+      time = Sys.time()
+    )
 }
 
-#* Plot a histogram
-#* @serializer png
-#* @get /plot
-function() {
-    rand <- rnorm(100)
-    hist(rand)
+#* Predict penguin species
+#* @post /predict
+function(req, res) {
+    predict(model, new_data = req$body, type = "prob")
 }
 
-#* Return the sum of two numbers
-#* @param a The first number to add
-#* @param b The second number to add
-#* @post /sum
-function(a, b) {
-    as.numeric(a) + as.numeric(b)
-}
 
 # Programmatically alter your API
 #* @plumber
 function(pr) {
-    pr %>%
-        # Overwrite the default serializer to return unboxed JSON
-        pr_set_serializer(serializer_unboxed_json())
+    pr |> 
+      # Overwrite the default serializer to return unboxed JSON
+      # pr_set_serializer(serializer_unboxed_json())
+      # add API specification file; customize the look of the API
+      pr_set_api_spec_file(yaml::read_yaml("penguin-api.yaml"))
 }
