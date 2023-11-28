@@ -13,7 +13,6 @@ format:
     theme: sandstone
     code-tools: true
     code-copy: true
-    code-fold: true
     code-summary: "Show code"
     page-layout: full
     grid: 
@@ -25,6 +24,16 @@ execute:
 
 # Use the Palmer Penguins dataset to predict species
 
+Follow along using this [video](https://www.youtube.com/watch?v=J0Th2QRZ7Rk&t=199s).
+
+<!-- adding youtube video -->
+{{< video src="https://www.youtube.com/embed/J0Th2QRZ7Rk?si=OmfcbB6DmbgQ5-G0&amp;start=949" 
+    width="560" height="315" 
+    title="YouTube video player" 
+    frameborder="0" allow="accelerometer; autoplay; clipboard-write; 
+      encrypted-media; gyroscope; picture-in-picture; web-share" 
+    allowfullscreen >}}
+
 ## Load libraries
 
 ```{r}
@@ -35,6 +44,7 @@ library(parsnip)
 ```
 
 ## Model fit
+
 ```{r}
 model <- rand_forest(mode = "classification") |>
   set_engine("ranger") |>
@@ -43,13 +53,14 @@ model <- rand_forest(mode = "classification") |>
 ```
 
 ## Model summary
+
 ```{r}
 model
 ```
 
 ## Save the model object
+
 ```{r}
 # save the model as rds
 saveRDS(model, "model.rds")
 ```
-
