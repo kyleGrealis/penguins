@@ -16,7 +16,7 @@ library(parsnip)
 library(ranger)
 
 # Goal ----
-model <- readRDS("../model.rds")
+model <- readRDS("model.rds")
 
 # random forest model
 # predict(
@@ -51,5 +51,5 @@ function(pr) {
   pr |> 
     # add API specification file; customize the look of the API
     # provides the ability to input/modify prediction data within the API
-    pr_set_api_spec(yaml::read_yaml("../penguin-api.yaml"))
+    pr_set_api_spec(yaml::read_yaml("penguin-api.yaml"))
 }

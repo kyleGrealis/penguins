@@ -1,0 +1,49 @@
+---
+title: "Model Training"
+output: html_notebook
+---
+
+# Use the Palmer Penguins dataset to predict species
+
+Follow along using this [video](https://www.youtube.com/watch?v=J0Th2QRZ7Rk&t=199s).
+
+<iframe src="https://www.youtube.com/embed/J0Th2QRZ7Rk?si=OmfcbB6DmbgQ5-G0&amp;start=949" data-external="1" width="560" height="315" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+## Load libraries
+
+```{r}
+# Load libraries
+library(tidyverse)
+library(palmerpenguins)
+library(parsnip)
+```
+
+## Modify penguins dataset
+
+```{r}
+penguins_filtered <- penguins |> 
+  drop_na(ends_with("mm")) |> 
+  select(species, ends_with("mm"), body_mass_g)
+```
+
+## Model fit
+
+```{r}
+model <- rand_forest() |>
+  set_engine("ranger") |>
+  set_mode("classification") |>
+  fit(species ~ ., data = penguins_filtered)
+```
+
+## Model summary
+
+```{r}
+model
+```
+
+## Save the model object
+
+```{r}
+# save the model as rds
+saveRDS(model, here::here("R","model.rds"))
+```
