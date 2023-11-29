@@ -9,7 +9,6 @@
 
 # for api
 library(plumber)
-library(glue)
 library(yaml)
 
 # for model
@@ -19,25 +18,21 @@ library(ranger)
 # Goal ----
 model <- readRDS("model.rds")
 
-# random forest model
-# predict(
-#   model, 
-#   newdata = jsonlite::read_json("penguins.json", simplifyVector = TRUE), 
-#   type = "prob"
-# )
 
 # Write the API ----
 #* @apiTitle Penguin Plumber API
 #* @apiDescription API to the penguin random forest model.
 
+
 #* Health check -- is the API running?
 #* @get /health-check
 status <- function() {
     list(
-      msg = glue::glue("If you're reading this, the API is working!"),
+      msg = "If you're reading this, the API is working!",
       time = Sys.time()
     )
 }
+
 
 #* Predict penguin species
 #* @post /predict
