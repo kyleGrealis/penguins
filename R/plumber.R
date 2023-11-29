@@ -35,9 +35,15 @@ status <- function() {
 
 
 #* Predict penguin species
-#* @post /predict
-function(req, res) {
-    predict(model, new_data = as.data.frame(req$body), type = "prob")
+#* @get /predict
+function(bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g) {
+  new_data <- data.frame(
+    bill_length_mm = as.numeric(bill_length_mm),
+    bill_depth_mm = as.numeric(bill_depth_mm),
+    flipper_length_mm = as.numeric(flipper_length_mm),
+    body_mass_g = as.numeric(body_mass_g)
+  )
+  predict(model, new_data = new_data, type = "prob")
 }
 
 
