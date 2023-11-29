@@ -10,6 +10,7 @@
 # for api
 library(plumber)
 library(glue)
+library(yaml)
 
 # for model
 library(parsnip)

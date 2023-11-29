@@ -44,4 +44,3 @@ paths:
                   type: number
                   title: "Penguin body mass"
                   example: 5500
-                  
