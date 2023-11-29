@@ -14,6 +14,7 @@ This project will use the {palmerpenguins} dataset to predict the species of pen
 
 The final goal of the project will be to create a {shiny} app that will allow the user to input the penguin's measurements and predict the species.
 
+<br>
+<hr>
 
-
-### NOTE: please note that {ranger} needs to be downgraded to version 0.14.1 to fix compiling issues within Posit Connect. However, you may be able to correct this if you have admin access to your Posit Connect account.
+##### NOTE: {ranger} needed to be downgraded to version 0.14.1 to fix compiling issues within my group's Posit Connect. However, you may be able to correct this if you have admin access to your Posit Connect account.
