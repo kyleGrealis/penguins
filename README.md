@@ -2,7 +2,11 @@
 
 Follow along using this [video](https://www.youtube.com/watch?v=J0Th2QRZ7Rk&t=199s).
 
-<iframe src="https://www.youtube.com/embed/J0Th2QRZ7Rk?si=OmfcbB6DmbgQ5-G0&amp;start=949" data-external="1" width="560" height="315" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<p align="center">
+  <a href="http://www.youtube.com/watch?v=J0Th2QRZ7Rk">
+    <img src="http://img.youtube.com/vi/J0Th2QRZ7Rk/0.jpg" alt="Integrating R with Plumber APIs">
+  </a>
+</p>
 
 ## Getting some help from the Palmer Penguins
 
