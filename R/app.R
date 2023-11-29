@@ -12,16 +12,68 @@ library(jsonlite)
 library(httr)
 
 ui <- fluidPage(
-  numericInput("bill_length_mm", "Bill length (mm)", value = 46.8),
-  numericInput("bill_depth_mm", "Bill depth (mm)", value = 16.1),
-  numericInput("flipper_length_mm", "Flipper length (mm)", value = 0),
-  numericInput("body_mass_g", "Body mass (g)", value = 5500),
-  actionButton("submit", "Submit"),
-  verbatimTextOutput("prediction")
+  tags$head(
+    tags$style(HTML("
+      .shiny-image-output {
+        display: block;
+        margin: auto;
+      }
+      .center-text {
+        text-align: center;
+      }
+    "))
+  ),
+  titlePanel("Penguin Species Predictor"),
+  sidebarLayout(
+    sidebarPanel(
+      numericInput("bill_length_mm", "Bill length (mm)", value = 46.8),
+      numericInput("bill_depth_mm", "Bill depth (mm)", value = 16.1),
+      numericInput("flipper_length_mm", "Flipper length (mm)", value = 215),
+      numericInput("body_mass_g", "Body mass (g)", value = 5500),
+      actionButton("submit", "What penguin did I find?"),
+      actionButton("reset", "Reset")
+    ),
+    mainPanel(
+      h3("Predicted species:"),
+      fluidRow(
+        column(
+          4,
+          h4("Adelie", class = "center-text"),
+          uiOutput("adelie_img"),
+          span(textOutput("adelie"), class = "center-text")
+        ),
+        column(
+          4,
+          h4("Chinstrap", class = "center-text"),
+          uiOutput("chinstrap_img"),
+          span(textOutput("chinstrap"), class = "center-text")
+        ),
+        column(
+          4,
+          h4("Gentoo", class = "center-text"),
+          uiOutput("gentoo_img"),
+          span(textOutput("gentoo"), class = "center-text")
+        )
+      )
+    )
+  )
 )
 
-server <- function(input, output) {
-  prediction <- eventReactive(input$submit, {
+server <- function(input, output, session) {
+  
+  # Initialize images with equal sizes
+  output$adelie_img <- renderUI({
+    tags$img(src = "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Hope_Bay-2016-Trinity_Peninsula%E2%80%93Ad%C3%A9lie_penguin_%28Pygoscelis_adeliae%29_04.jpg/600px-Hope_Bay-2016-Trinity_Peninsula%E2%80%93Ad%C3%A9lie_penguin_%28Pygoscelis_adeliae%29_04.jpg", width = "100%", height = "200px", class = "shiny-image-output")
+  })
+  output$chinstrap_img <- renderUI({
+    tags$img(src = "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/South_Shetland-2016-Deception_Island%E2%80%93Chinstrap_penguin_%28Pygoscelis_antarctica%29_04.jpg/330px-South_Shetland-2016-Deception_Island%E2%80%93Chinstrap_penguin_%28Pygoscelis_antarctica%29_04.jpg", width = "100%", height = "200px", class = "shiny-image-output")
+  })
+  output$gentoo_img <- renderUI({
+    tags$img(src = "https://upload.wikimedia.org/wikipedia/commons/e/eb/Gentoo_penguin.jpg", width = "100%", height = "200px", class = "shiny-image-output")
+  })
+  
+  # Define the reactive expression for the prediction
+  prediction <- reactive({
     # Construct the request
     url <- "https://positconnect.med.miami.edu/content/6ceebf29-1af5-4606-88d0-0b82f9e0223b/predict"
     query <- list(
@@ -37,21 +89,58 @@ server <- function(input, output) {
       add_headers(Authorization = paste("Bearer", token = Sys.getenv('penguin_key')))
     )
     
-    # print the response to the console to debug
-    # print(response)
-    
     # If the API is returning JSON:
     result <- content(response, "parsed")
     
-    # If the API is returning XML:
-    # result <- xml2::as_list(xml2::read_xml(response))
+    # printing to the console for debuggin the API call
+    # print(glue::glue("length of response is: {length(response)}"))
+    # print(glue::glue("response is: {response}"))
+    # print(glue::glue("result is: {result}"))
     
-    # Convert the result to a character vector
-    paste(unlist(result), collapse = ", ")
+    # Extract the probabilities and map them to the species
+    probabilities <- unlist(result)
+    species <- c("Adelie", "Chinstrap", "Gentoo")
+    names(probabilities) <- species
+    
+    # Return the probabilities as a list
+    probabilities
   })
   
-  output$prediction <- renderText({
-    prediction()
+  
+
+  # Update images based on prediction when submit button is clicked
+  observeEvent(input$submit, {
+    # Get the prediction
+    pred <- prediction()
+    
+    output$adelie_img <- renderUI({
+      tags$img(src = "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Hope_Bay-2016-Trinity_Peninsula%E2%80%93Ad%C3%A9lie_penguin_%28Pygoscelis_adeliae%29_04.jpg/600px-Hope_Bay-2016-Trinity_Peninsula%E2%80%93Ad%C3%A9lie_penguin_%28Pygoscelis_adeliae%29_04.jpg", width = paste0(pred["Adelie"]*100, "%"), class = "shiny-image-output")
+    })
+    output$chinstrap_img <- renderUI({
+      tags$img(src = "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/South_Shetland-2016-Deception_Island%E2%80%93Chinstrap_penguin_%28Pygoscelis_antarctica%29_04.jpg/330px-South_Shetland-2016-Deception_Island%E2%80%93Chinstrap_penguin_%28Pygoscelis_antarctica%29_04.jpg", width = paste0(pred["Chinstrap"]*100, "%"), class = "shiny-image-output")
+    })
+    output$gentoo_img <- renderUI({
+      tags$img(src = "https://upload.wikimedia.org/wikipedia/commons/e/eb/Gentoo_penguin.jpg", width = paste0(pred["Gentoo"]*100, "%"), class = "shiny-image-output")
+    })
+    
+    # Create separate outputs for each species and round and add a percent sign
+    output$adelie <- renderText({
+      glue::glue('{round(prediction()["Adelie"]*100, 2)}%')
+    })
+    output$chinstrap <- renderText({
+      glue::glue('{round(prediction()["Chinstrap"]*100, 2)}%')
+    })
+    output$gentoo <- renderText({
+      glue::glue('{round(prediction()["Gentoo"]*100, 2)}%')
+    })
+  })
+  
+  # Reset the inputs
+  observeEvent(input$reset, {
+    updateNumericInput(session, "bill_length_mm", value = 46.8)
+    updateNumericInput(session, "bill_depth_mm", value = 16.1)
+    updateNumericInput(session, "flipper_length_mm", value = 215)
+    updateNumericInput(session, "body_mass_g", value = 5500)
   })
 }
 
