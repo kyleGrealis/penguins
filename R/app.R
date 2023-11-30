@@ -33,7 +33,9 @@ ui <- fluidPage(
       }
     "))
   ),
-  titlePanel(tags$strong("Penguin Species Predictor")),
+  title = "Penguin Species Predictor",
+  tags$head(tags$style(".title { font-weight: bold; }")),
+  titlePanel(title = div("Penguin Species Predictor", class = "title")),
   
   sidebarLayout(
     
