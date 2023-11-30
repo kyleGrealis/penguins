@@ -21,7 +21,7 @@ ui <- fluidPage(
         background-repeat: no-repeat;
         background-size: cover;
         color: white;
-        max-width: 820px;
+        max-width: 850px;
         margin: auto;
       }
       .shiny-image-output {
