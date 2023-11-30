@@ -11,10 +11,8 @@ library(jsonlite)
 # load the httr package to handle the API calls
 library(httr)
 
-# library(config)
-# penguin_key <- config::get("penguin_key")
+penguin_key <- config::get("penguin_key")
 # source("penguin_key.R")
-penguin_key <- "ycgq8rtFRxwZBheMq4O2aXAEwisOZFDe"
 
 # creating the ui ----
 ui <- fluidPage(
@@ -135,10 +133,10 @@ server <- function(input, output, session) {
       url, 
       query = query, 
       # this key is from the Posit Connect API and stored in the .Renviron file
-      # add_headers(Authorization = paste("Bearer", token = Sys.getenv('penguin_key')))
+      add_headers(Authorization = paste("Bearer", token = Sys.getenv('penguin_key')))
       
       # this key is from the Posit Connect API and stored in the config.yml file
-      add_headers(Authorization = paste("Bearer", token = penguin_key))
+      # add_headers(Authorization = paste("Bearer", token = penguin_key))
     )
     
     # If the API is returning JSON:
