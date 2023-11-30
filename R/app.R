@@ -14,6 +14,12 @@ library(httr)
 ui <- fluidPage(
   tags$head(
     tags$style(HTML("
+      body {
+        background-image: url('antarctica.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+        color: white;
+      }
       .shiny-image-output {
         display: block;
         margin: auto;
@@ -23,7 +29,7 @@ ui <- fluidPage(
       }
     "))
   ),
-  titlePanel("Penguin Species Predictor"),
+  titlePanel(tags$strong("Penguin Species Predictor")),
   sidebarLayout(
     sidebarPanel(
       numericInput("bill_length_mm", "Bill length (mm)", value = 46.8),
@@ -31,9 +37,11 @@ ui <- fluidPage(
       numericInput("flipper_length_mm", "Flipper length (mm)", value = 215),
       numericInput("body_mass_g", "Body mass (g)", value = 5500),
       actionButton("submit", "What penguin did I find?"),
-      actionButton("reset", "Reset")
+      style = "color: black;"
     ),
     mainPanel(
+      h2("You are..."),
+      p("a scientist exploring the Antarctic! You've just discovered a new penguin species and you want to know what it is. You measure the penguin's bill length, bill depth, flipper length, and body mass. You enter these measurements into the app and it will predict the species of penguin you found."),
       h3("Predicted species:"),
       fluidRow(
         column(
@@ -63,13 +71,13 @@ server <- function(input, output, session) {
   
   # Initialize images with equal sizes
   output$adelie_img <- renderUI({
-    tags$img(src = "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Hope_Bay-2016-Trinity_Peninsula%E2%80%93Ad%C3%A9lie_penguin_%28Pygoscelis_adeliae%29_04.jpg/600px-Hope_Bay-2016-Trinity_Peninsula%E2%80%93Ad%C3%A9lie_penguin_%28Pygoscelis_adeliae%29_04.jpg", width = "100%", height = "200px", class = "shiny-image-output")
+    tags$img(src = "adelie.jpg", width = "100%", height = "200px", class = "shiny-image-output")
   })
   output$chinstrap_img <- renderUI({
-    tags$img(src = "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/South_Shetland-2016-Deception_Island%E2%80%93Chinstrap_penguin_%28Pygoscelis_antarctica%29_04.jpg/330px-South_Shetland-2016-Deception_Island%E2%80%93Chinstrap_penguin_%28Pygoscelis_antarctica%29_04.jpg", width = "100%", height = "200px", class = "shiny-image-output")
+    tags$img(src = "chinstrap.jpg", width = "100%", height = "200px", class = "shiny-image-output")
   })
   output$gentoo_img <- renderUI({
-    tags$img(src = "https://upload.wikimedia.org/wikipedia/commons/e/eb/Gentoo_penguin.jpg", width = "100%", height = "200px", class = "shiny-image-output")
+    tags$img(src = "gentoo.jpg", width = "100%", height = "200px", class = "shiny-image-output")
   })
   
   # Define the reactive expression for the prediction
@@ -114,13 +122,25 @@ server <- function(input, output, session) {
     pred <- prediction()
     
     output$adelie_img <- renderUI({
-      tags$img(src = "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Hope_Bay-2016-Trinity_Peninsula%E2%80%93Ad%C3%A9lie_penguin_%28Pygoscelis_adeliae%29_04.jpg/600px-Hope_Bay-2016-Trinity_Peninsula%E2%80%93Ad%C3%A9lie_penguin_%28Pygoscelis_adeliae%29_04.jpg", width = paste0(pred["Adelie"]*100, "%"), class = "shiny-image-output")
+      tags$img(
+        src = "adelie.jpg", 
+        width = paste0(pred["Adelie"]*100, "%"), 
+        class = "shiny-image-output"
+      )
     })
     output$chinstrap_img <- renderUI({
-      tags$img(src = "https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/South_Shetland-2016-Deception_Island%E2%80%93Chinstrap_penguin_%28Pygoscelis_antarctica%29_04.jpg/330px-South_Shetland-2016-Deception_Island%E2%80%93Chinstrap_penguin_%28Pygoscelis_antarctica%29_04.jpg", width = paste0(pred["Chinstrap"]*100, "%"), class = "shiny-image-output")
+      tags$img(
+        src = "chinstrap.jpg", 
+        width = paste0(pred["Chinstrap"]*100, "%"), 
+        class = "shiny-image-output"
+      )
     })
     output$gentoo_img <- renderUI({
-      tags$img(src = "https://upload.wikimedia.org/wikipedia/commons/e/eb/Gentoo_penguin.jpg", width = paste0(pred["Gentoo"]*100, "%"), class = "shiny-image-output")
+      tags$img(
+        src = "gentoo.jpg", 
+        width = paste0(pred["Gentoo"]*100, "%"), 
+        class = "shiny-image-output"
+      )
     })
     
     # Create separate outputs for each species and round and add a percent sign

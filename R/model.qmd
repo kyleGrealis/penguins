@@ -66,6 +66,23 @@ model <- rand_forest() |>
 model
 ```
 
+
+
+## Using {butcher}
+
+Trim down the model object to only the necessary components
+
+```{r}
+library(butcher)
+```
+
+```{r}
+# butcher::weigh(model)
+# butcher::axe_call(model, verbose = TRUE)
+model <- butcher::axe_fitted(model, verbose = TRUE)
+```
+
+
 ## Save the model object
 
 ```{r}
