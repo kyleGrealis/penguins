@@ -11,6 +11,10 @@ library(jsonlite)
 # load the httr package to handle the API calls
 library(httr)
 
+# library(config)
+# penguin_key <- config::get("penguin_key")
+# source("penguin_key.R")
+penguin_key <- "ycgq8rtFRxwZBheMq4O2aXAEwisOZFDe"
 
 # creating the ui ----
 ui <- fluidPage(
@@ -29,6 +33,7 @@ ui <- fluidPage(
       .shiny-image-output {
         display: block;
         margin: auto;
+        max-width: 150px;
       }
       .center-text {
         text-align: center;
@@ -54,7 +59,8 @@ ui <- fluidPage(
     
     mainPanel(
       h2("You are..."),
-      p("a scientist exploring the Antarctic! You've just discovered a new penguin species and you want to know what it is. You measure the penguin's bill length, bill depth, flipper length, and body mass. You enter these measurements into the app and it will predict the species of penguin you found."),
+      p("an ornithologist studying the migratory patterns of the local penguins at the Palmer Station, Antarctica LTER (Long Term Ecological Research Network) on the Palmer archipelago. You are in the southwestern Antarctic when you encounter a colony of penguins and you want to know what type they are."),
+      p("You've measured a penguin's bill length, bill depth, flipper length, and body mass. You can now enter these measurements into the app and it will predict the species of penguin you found."),
       
       uiOutput("predicted_species_header"),
       
@@ -129,7 +135,10 @@ server <- function(input, output, session) {
       url, 
       query = query, 
       # this key is from the Posit Connect API and stored in the .Renviron file
-      add_headers(Authorization = paste("Bearer", token = Sys.getenv('penguin_key')))
+      # add_headers(Authorization = paste("Bearer", token = Sys.getenv('penguin_key')))
+      
+      # this key is from the Posit Connect API and stored in the config.yml file
+      add_headers(Authorization = paste("Bearer", token = penguin_key))
     )
     
     # If the API is returning JSON:
