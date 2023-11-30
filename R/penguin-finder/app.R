@@ -17,12 +17,14 @@ ui <- fluidPage(
   tags$head(
     tags$style(HTML("
       body {
+        transform: scale(1.25);
+        transform-origin: top center;
+        margin: auto;
         background-image: url('antarctica.jpg');
         background-repeat: no-repeat;
         background-size: cover;
         color: white;
         max-width: 850px;
-        margin: auto;
       }
       .shiny-image-output {
         display: block;
