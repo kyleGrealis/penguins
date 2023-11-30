@@ -24,6 +24,7 @@ model <- readRDS("model.rds")
 #* @apiDescription API to the penguin random forest model.
 
 
+# this part can be removed since the API is not public and is only for internal use
 #* Health check -- is the API running?
 #* @get /health-check
 status <- function() {

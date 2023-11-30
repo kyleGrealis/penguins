@@ -80,6 +80,8 @@ library(butcher)
 # butcher::weigh(model)
 # butcher::axe_call(model, verbose = TRUE)
 model <- butcher::axe_fitted(model, verbose = TRUE)
+
+# not much was removed since the object was already only 1.5 MB
 ```
 
 
