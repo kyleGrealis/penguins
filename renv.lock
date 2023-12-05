@@ -204,6 +204,24 @@
       ],
       "Hash": "fac047b773ad75cea6e2a25214b09ca0"
     },
+    "butcher": {
+      "Package": "butcher",
+      "Version": "0.3.3",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "cli",
+        "lobstr",
+        "methods",
+        "purrr",
+        "rlang",
+        "tibble",
+        "utils",
+        "vctrs"
+      ],
+      "Hash": "0d2c66e9ab0e4f3adfbde1cbb2ed244c"
+    },
     "cachem": {
       "Package": "cachem",
       "Version": "1.0.8",
@@ -291,6 +309,16 @@
       "Source": "Repository",
       "Repository": "RSPM",
       "Hash": "d691c61bff84bd63c383874d2d0c3307"
+    },
+    "config": {
+      "Package": "config",
+      "Version": "0.3.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "yaml"
+      ],
+      "Hash": "8b7222e9d9eb5178eea545c0c4d33fc2"
     },
     "conflicted": {
       "Package": "conflicted",
@@ -890,6 +918,21 @@
       ],
       "Hash": "b8552d117e1b808b09a832f589b79035"
     },
+    "lobstr": {
+      "Package": "lobstr",
+      "Version": "1.1.2",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "cpp11",
+        "crayon",
+        "methods",
+        "prettyunits",
+        "rlang"
+      ],
+      "Hash": "f2a94f8fc9db382a642e965339635ad6"
+    },
     "lubridate": {
       "Package": "lubridate",
       "Version": "1.9.3",
@@ -1352,9 +1395,14 @@
     },
     "rsconnect": {
       "Package": "rsconnect",
-      "Version": "1.1.1",
-      "Source": "Repository",
-      "Repository": "RSPM",
+      "Version": "1.1.1.9000",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "rsconnect",
+      "RemoteUsername": "rstudio",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "d8c89dd9dd68fef6192fb4eef008ade1d65507ad",
       "Requirements": [
         "R",
         "cli",
@@ -1370,7 +1418,7 @@
         "tools",
         "yaml"
       ],
-      "Hash": "672fc66985074d17c86b6335105143b8"
+      "Hash": "3b2ff6cccf6bb446b42ef5556c6a74ca"
     },
     "rstudioapi": {
       "Package": "rstudioapi",
