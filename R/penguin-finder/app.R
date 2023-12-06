@@ -222,24 +222,18 @@ server <- function(input, output, session) {
     output$adelie_img <- renderUI({
       tags$img(
         src = "adelie.jpg", 
-        width = "100%", 
-        height = "200px", 
         class = "shiny-image-output"
       )
     })
     output$chinstrap_img <- renderUI({
       tags$img(
         src = "chinstrap.jpg", 
-        width = "100%", 
-        height = "200px", 
         class = "shiny-image-output"
       )
     })
     output$gentoo_img <- renderUI({
       tags$img(
         src = "gentoo.jpg", 
-        width = "100%", 
-        height = "200px", 
         class = "shiny-image-output"
       )
     })
