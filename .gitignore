@@ -54,3 +54,5 @@ rsconnect/
 *.nb.html
 
 *penguin_key*
+
+ *.vscode/*
