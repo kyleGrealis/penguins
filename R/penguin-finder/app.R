@@ -6,32 +6,58 @@
 # evaluated by the model and return the predicted species of penguin
 
 library(shiny)
+library(bslib)
 # load the jsonlite package to handle the incoming data
 library(jsonlite)
 # load the httr package to handle the API calls
 library(httr)
 
-penguin_key <- config::get("penguin_key")
+# penguin_key <- config::get("penguin_key")
 # source("penguin_key.R")
 
+adelie <- list(
+  h4("Adelie", class = "center-text"),
+  uiOutput("adelie_img"),
+  span(textOutput("adelie"), class = "center-text")
+)
+
+chinstrap <- list(
+  h4("Chinstrap", class = "center-text"),
+  uiOutput("chinstrap_img"),
+  span(textOutput("chinstrap"), class = "center-text")
+)
+
+gentoo <- list(
+  h4("Gentoo", class = "center-text"),
+  uiOutput("gentoo_img"),
+  span(textOutput("gentoo"), class = "center-text")
+)
+
 # creating the ui ----
-ui <- fluidPage(
+ui <- page_fixed(
   tags$head(
     tags$style(HTML("
       body {
-        transform: scale(1.25);
-        transform-origin: top center;
+        background-attachment: fixed;
         margin: auto;
         background-image: url('antarctica.jpg');
         background-repeat: no-repeat;
         background-size: cover;
         color: white;
-        max-width: 850px;
+      }
+      .sidebar {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        background-color: #f7f7f7;
+        border-color: gray;
+        color: black;
       }
       .shiny-image-output {
         display: block;
-        margin: auto;
-        max-width: 150px;
+        margin-left: auto;
+        margin-right: auto;
+        height: 300px;
       }
       .center-text {
         text-align: center;
@@ -52,7 +78,7 @@ ui <- fluidPage(
       actionButton("submit", "What penguin did I find?"),
       tags$hr(style = "border-color: gray;"),
       actionButton("reset", "Reset"),
-      style = "color: black;"
+      class = "sidebar"
     ),
     
     mainPanel(
@@ -62,25 +88,11 @@ ui <- fluidPage(
       
       uiOutput("predicted_species_header"),
       
-      fluidRow(
-        column(
-          4,
-          h4("Adelie", class = "center-text"),
-          uiOutput("adelie_img"),
-          span(textOutput("adelie"), class = "center-text")
-        ),
-        column(
-          4,
-          h4("Chinstrap", class = "center-text"),
-          uiOutput("chinstrap_img"),
-          span(textOutput("chinstrap"), class = "center-text")
-        ),
-        column(
-          4,
-          h4("Gentoo", class = "center-text"),
-          uiOutput("gentoo_img"),
-          span(textOutput("gentoo"), class = "center-text")
-        )
+      layout_column_wrap(
+        width = "200px", height = "300px",
+        adelie,
+        chinstrap,
+        gentoo
       )
     )
   )
@@ -95,24 +107,18 @@ server <- function(input, output, session) {
   output$adelie_img <- renderUI({
     tags$img(
       src = "adelie.jpg", 
-      width = "100%", 
-      height = "200px", 
       class = "shiny-image-output"
     )
   })
   output$chinstrap_img <- renderUI({
     tags$img(
-      src = "chinstrap.jpg", 
-      width = "100%", 
-      height = "200px", 
+      src = "chinstrap.jpg",
       class = "shiny-image-output"
     )
   })
   output$gentoo_img <- renderUI({
     tags$img(
       src = "gentoo.jpg", 
-      width = "100%", 
-      height = "200px", 
       class = "shiny-image-output"
     )
   })
@@ -134,9 +140,6 @@ server <- function(input, output, session) {
       query = query, 
       # this key is from the Posit Connect API and stored in the .Renviron file
       add_headers(Authorization = paste("Bearer", token = Sys.getenv('penguin_key')))
-      
-      # this key is from the Posit Connect API and stored in the config.yml file
-      # add_headers(Authorization = paste("Bearer", token = penguin_key))
     )
     
     # If the API is returning JSON:

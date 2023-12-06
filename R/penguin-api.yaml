@@ -40,7 +40,7 @@ paths:
           required: true
           schema:
             type: number
-            example: 0
+            example: 150
         - name: body_mass_g
           in: query
           description: Penguin body mass
