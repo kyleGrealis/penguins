@@ -55,4 +55,4 @@ rsconnect/
 
 *penguin_key*
 
- *.vscode/*
+ .vscode/*
