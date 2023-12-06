@@ -12,9 +12,6 @@ library(jsonlite)
 # load the httr package to handle the API calls
 library(httr)
 
-# penguin_key <- config::get("penguin_key")
-# source("penguin_key.R")
-
 adelie <- list(
   h4("Adelie", class = "center-text"),
   uiOutput("adelie_img"),
@@ -139,7 +136,7 @@ server <- function(input, output, session) {
       url, 
       query = query, 
       # this key is from the Posit Connect API and stored in the .Renviron file
-      add_headers(Authorization = paste("Bearer", token = Sys.getenv('penguin_key')))
+      add_headers(Authorization = paste("Bearer", token = Sys.getenv("PENGUIN_KEY")))
     )
     
     # If the API is returning JSON:
