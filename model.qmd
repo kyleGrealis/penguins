@@ -1,0 +1,89 @@
+---
+title: "Palmer Penguins modeling"
+date: last-modified
+author: "[Kyle Grealis](https://github.com/kyleGrealis/)"
+format: 
+  html:
+    toc: true
+    toc-title: " "
+    toc-location: left
+    self-contained: true
+    # css: styles.scss
+    theme: sandstone
+    code-tools: true
+    code-copy: true
+    # code-fold: true
+    code-summary: "Show code"
+    page-layout: full
+    grid: 
+      margin-width: 0px
+execute: 
+  # echo: false
+  warning: false
+---
+
+# Use the Palmer Penguins dataset to predict species
+
+Follow along using this [video](https://www.youtube.com/watch?v=J0Th2QRZ7Rk&t=199s).
+
+<!-- adding youtube video -->
+{{< video src="https://www.youtube.com/embed/J0Th2QRZ7Rk?si=OmfcbB6DmbgQ5-G0&amp;start=949" 
+    width="560" height="315" 
+    title="YouTube video player" 
+    frameborder="0" allow="accelerometer; autoplay; clipboard-write; 
+      encrypted-media; gyroscope; picture-in-picture; web-share" 
+    allowfullscreen >}}
+
+## Load libraries
+
+```{r}
+# Load libraries
+library(tidyverse)
+library(tidymodels)
+library(palmerpenguins)
+library(parsnip)
+library(vetiver)
+```
+
+## Modify penguins dataset
+
+```{r}
+penguins_filtered <- penguins |> 
+  drop_na(ends_with("mm")) |> 
+  select(species, ends_with("mm"), body_mass_g)
+```
+
+## Model fit
+
+```{r}
+# You can  use a tidymodels workflow or model types to create a vetiver_model() below. 
+# Here I am creating a tidymodels workflow for the penguin predictor. 
+# To see other supported models, see: https://vetiver.posit.co/get-started/#installation
+
+# An alternate & simpler model that will also work is:
+# ranger::ranger(species ~ ., data = penguins_filtered)
+
+penguin_spec <- rand_forest() |> 
+  set_engine('ranger') |> 
+  set_mode('classification')
+
+penguins_wf <- workflow() |> 
+  add_formula(species~.) |> 
+  add_model(penguin_spec) 
+
+penguins_fit <- penguins_wf |> 
+  fit(penguins_filtered)
+```
+
+## Model summary
+
+```{r}
+penguins_fit
+```
+
+
+```{r}
+description <- 'Using vetiver to create a penguins model'
+v <- vetiver_model(penguins_fit, 'penguin-random-forest', description=description)
+v
+``` 
