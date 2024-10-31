@@ -38,7 +38,8 @@ vignettes/*.pdf
 *.knit.md
 
 # R Environment Variables
-.Renviron
+*.Renviron
+*config.yml
 
 # pkgdown site
 docs/
@@ -51,3 +52,7 @@ rsconnect/
 
 # notebook files
 *.nb.html
+
+*penguin_key*
+
+ .vscode/*

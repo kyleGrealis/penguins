@@ -39,8 +39,10 @@ Follow along using this [video](https://www.youtube.com/watch?v=J0Th2QRZ7Rk&t=19
 ```{r}
 # Load libraries
 library(tidyverse)
+library(tidymodels)
 library(palmerpenguins)
 library(parsnip)
+library(vetiver)
 ```
 
 ## Modify penguins dataset
@@ -54,38 +56,34 @@ penguins_filtered <- penguins |>
 ## Model fit
 
 ```{r}
-model <- rand_forest() |>
-  set_engine("ranger") |>
-  set_mode("classification") |>
-  fit(species ~ ., data = penguins_filtered)
+# You can  use a tidymodels workflow or model types to create a vetiver_model() below. 
+# Here I am creating a tidymodels workflow for the penguin predictor. 
+# To see other supported models, see: https://vetiver.posit.co/get-started/#installation
+
+# An alternate & simpler model that will also work is:
+# ranger::ranger(species ~ ., data = penguins_filtered)
+
+penguin_spec <- rand_forest() |> 
+  set_engine('ranger') |> 
+  set_mode('classification')
+
+penguins_wf <- workflow() |> 
+  add_formula(species~.) |> 
+  add_model(penguin_spec) 
+
+penguins_fit <- penguins_wf |> 
+  fit(penguins_filtered)
 ```
 
 ## Model summary
 
 ```{r}
-model
+penguins_fit
 ```
 
-
-
-## Using {butcher}
-
-Trim down the model object to only the necessary components
 
 ```{r}
-library(butcher)
-```
-
-```{r}
-# butcher::weigh(model)
-# butcher::axe_call(model, verbose = TRUE)
-model <- butcher::axe_data(model, verbose = TRUE)
-```
-
-
-## Save the model object
-
-```{r}
-# save the model as rds
-saveRDS(model, here::here("R","model.rds"))
-```
+description <- 'Using vetiver to create a penguins model'
+v <- vetiver_model(penguins_fit, 'penguin-random-forest', description=description)
+v
+``` 

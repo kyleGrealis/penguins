@@ -1,0 +1,70 @@
+{
+  "version": 1,
+  "locale": "en_US",
+  "platform": "4.3.2",
+  "metadata": {
+    "appmode": "static",
+    "primary_rmd": null,
+    "primary_html": "model.html",
+    "content_category": null,
+    "has_parameters": false
+  },
+  "packages": null,
+  "files": {
+    ".Rprofile": {
+      "checksum": "b030005417303dd2580cffc0b1f61d73"
+    },
+    "config.yml": {
+      "checksum": "23d3206193e43010e5981ac21c0e0a34"
+    },
+    "LICENSE": {
+      "checksum": "86d3f3a95c324c9479bd8986968f4327"
+    },
+    "model.html": {
+      "checksum": "b80ae4fe12501fa13371cf8c18412120"
+    },
+    "R/model.html": {
+      "checksum": "a9410ac47484dc1f97260c3dfad9ad43"
+    },
+    "R/model.qmd": {
+      "checksum": "3dd39e7b1dbaf08820a25c73da4648ec"
+    },
+    "R/model.rds": {
+      "checksum": "251780cad9bcede272f223eb3e3289b3"
+    },
+    "R/penguin-api.yaml": {
+      "checksum": "bba2c3012a7b7214f49eb653007ed27c"
+    },
+    "R/penguin-finder/.Renviron": {
+      "checksum": "82d3a934a8f92a5468ec88ca0665f7ce"
+    },
+    "R/penguin-finder/app.R": {
+      "checksum": "f7e7a71c6cf1f93d213e35295fe934e5"
+    },
+    "R/penguin-finder/www/adelie.jpg": {
+      "checksum": "2e54d8dc299daf3f848c4aa2a454dc1b"
+    },
+    "R/penguin-finder/www/antarctica.jpg": {
+      "checksum": "f5aec14a973ad4d13024f99379c27645"
+    },
+    "R/penguin-finder/www/chinstrap.jpg": {
+      "checksum": "8a3f052c8d65d9f96e72bcc5386b3276"
+    },
+    "R/penguin-finder/www/gentoo.jpg": {
+      "checksum": "9cbfe3ed801d0ad87badef82c14dfca7"
+    },
+    "R/penguins.json": {
+      "checksum": "2ebd511c74955de90d62412597177458"
+    },
+    "R/plumber.R": {
+      "checksum": "bbdd21844b8b1b02457f237ecb29fc9e"
+    },
+    "README.md": {
+      "checksum": "cd9eead04baac1988025f7cbdaf2d88c"
+    },
+    "renv.lock": {
+      "checksum": "a762d34d7ba1f2ee1f1f7f5d5e8ba4ae"
+    }
+  },
+  "users": null
+}
