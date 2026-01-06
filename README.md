@@ -1,6 +1,14 @@
-# Learning `plumber` and APIs
+# Penguin Species Predictor: Plumber API and Shiny App
 
-Follow along using this [video](https://www.youtube.com/watch?v=J0Th2QRZ7Rk&t=199s).
+This project demonstrates how to build a Plumber API in R to serve a machine learning model and then consume that API with a Shiny web application. 
+
+The project is divided into three main components:
+
+1.  **`analysis/`**: Contains an R script (`vetiver_model_creation.R`) that trains a random forest model using the `{tidymodels}` framework and saves the trained model artifact (`model.rds`) for use by the API.
+2.  **`plumber_api/`**: Contains the Plumber API that exposes a pre-trained random forest model for predicting penguin species.
+3.  **`shiny_app/`**: Contains the Shiny web application that allows users to input penguin measurements and get a species prediction from the API.
+
+For a detailed walkthrough of the original project, you can follow along with this [video](https://www.youtube.com/watch?v=J0Th2QRZ7Rk).
 
 <p align="center">
   <a href="http://www.youtube.com/watch?v=J0Th2QRZ7Rk">
@@ -8,13 +16,34 @@ Follow along using this [video](https://www.youtube.com/watch?v=J0Th2QRZ7Rk&t=19
   </a>
 </p>
 
-## Getting some help from the Palmer Penguins :wrench::penguin:
+## Getting Started
 
-This project will use the {palmerpenguins} dataset to predict the species of penguins. The {ranger} package will be used to fit the random forest model. The purpose is not to demostrate how to create the best model, but to show how to save the model and use it in another project. In our case, the model object will be saved as an rds file and then used within another script to create a {plumber} API. 
+The project's workflow is managed through npm scripts defined in `package.json`.
 
-The final goal of the project will be to create a {shiny} app that will allow the user to input the penguin's measurements and predict the species.
+### 1. One-Time Setup (Model Generation)
 
-<br>
-<hr>
+Before running the API for the first time, you must generate the `model.rds` file.
 
-##### NOTE: {ranger} needed to be downgraded to version 0.14.1 to fix compiling issues within my group's Posit Connect. However, you may be able to correct this if you have admin access to your Posit Connect account.
+```bash
+# Run the setup script to create the model
+npm run setup
+```
+This will execute the `analysis/vetiver_model_creation.R` script and place the `model.rds` file in the `plumber_api/` directory.
+
+### 2. Running the API & App
+
+For local development, you should run the API and the Shiny App in two separate terminals.
+
+**Terminal 1: Run the API**
+```bash
+npm run api
+```
+The API will be available at `http://127.0.0.1:8000`. You can explore the interactive documentation via Swagger UI at `http://127.0.0.1:8000/__docs__/`.
+
+**Terminal 2: Run the Shiny App**
+```bash
+npm run shiny
+```
+This will launch the Shiny application in your default web browser.
+
+---
