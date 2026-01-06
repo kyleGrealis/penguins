@@ -56,6 +56,7 @@ rsconnect/
 # notebook files
 *.nb.html
 
-*penguin_key*
+# Node.js
+node_modules/
 
-.vscode/*
+GEMINI.md
