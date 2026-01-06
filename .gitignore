@@ -20,11 +20,14 @@
 
 # RStudio files
 .Rproj.user/
-*.Rproj
 
 # produced vignettes
 vignettes/*.html
 vignettes/*.pdf
+
+#negating so that this file is not ignored
+!GEMINI.md
+
 
 # OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
 .httr-oauth
@@ -55,4 +58,4 @@ rsconnect/
 
 *penguin_key*
 
- .vscode/*
+.vscode/*
