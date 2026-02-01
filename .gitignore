@@ -59,4 +59,6 @@ rsconnect/
 # Node.js
 node_modules/
 
-GEMINI.md
+*.RData
+*.rds
+*.Rds
