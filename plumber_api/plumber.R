@@ -28,10 +28,10 @@ model <- readRDS(here::here("plumber_api", "model.rds"))
 #* Health check -- is the API running?
 #* @get /health-check
 status <- function() {
-    list(
-      msg = "If you're reading this, the API is working!",
-      time = Sys.time()
-    )
+  list(
+    msg = "If you're reading this, the API is working!",
+    time = Sys.time()
+  )
 }
 
 
@@ -51,7 +51,7 @@ function(bill_length_mm, bill_depth_mm, flipper_length_mm, body_mass_g) {
 # Programmatically alter your API
 #* @plumber
 function(pr) {
-  pr |> 
+  pr |>
     # add API specification file; customize the look of the API
     # provides the ability to input/modify prediction data within the API
     pr_set_api_spec(yaml::read_yaml("penguin-api.yaml"))

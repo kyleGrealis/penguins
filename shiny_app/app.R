@@ -13,7 +13,6 @@ library(jsonlite)
 library(httr)
 
 
-
 adelie <- list(
   h4("Adelie", class = "center-text"),
   uiOutput("adelie_img"),
@@ -69,9 +68,7 @@ ui <- page_fixed(
   title = "Penguin Species Predictor",
   tags$head(tags$style(".title { font-weight: bold; }")),
   titlePanel(title = div("Penguin Species Predictor", class = "title")),
-  
   sidebarLayout(
-    
     sidebarPanel(
       numericInput("bill_length_mm", "Bill length (mm)", value = 46),
       numericInput("bill_depth_mm", "Bill depth (mm)", value = 16),
@@ -82,14 +79,11 @@ ui <- page_fixed(
       actionButton("reset", "Reset"),
       class = "sidebar"
     ),
-    
     mainPanel(
       h2("You are..."),
       p("an ornithologist studying the migratory patterns of the local penguins at the Palmer Station, Antarctica LTER (Long Term Ecological Research Network) on the Palmer archipelago. You are in the southwestern Antarctic when you encounter a colony of penguins and you want to know what type they are."),
       p("You've measured a penguin's bill length, bill depth, flipper length, and body mass. You can now enter these measurements into the app and it will predict the species of penguin you found."),
-      
       uiOutput("predicted_species_header"),
-      
       layout_column_wrap(
         width = "200px", height = "300px",
         adelie,
@@ -101,17 +95,15 @@ ui <- page_fixed(
 )
 
 
-
 # creating the server ----
 server <- function(input, output, session) {
-  
   # Reactive value to store the prediction probabilities.
   # NULL indicates no prediction has been made yet.
   penguin_prediction <- reactiveVal(NULL)
-  
+
   # Reactive value to track if the submit button has been clicked
   submitClicked <- reactiveVal(FALSE)
-  
+
   # Get prediction from API when submit button is clicked
   observeEvent(input$submit, {
     # Construct the request
@@ -122,21 +114,21 @@ server <- function(input, output, session) {
       flipper_length_mm = input$flipper_length_mm,
       body_mass_g = input$body_mass_g
     )
-    
+
     # Make the API call
     response <- GET(url, query = query)
     result <- content(response, "parsed")
-    
+
     # Extract and name the probabilities
     probabilities <- unlist(result)
     species <- c("Adelie", "Chinstrap", "Gentoo")
     names(probabilities) <- species
-    
+
     # Update the reactive values
     penguin_prediction(probabilities)
     submitClicked(TRUE)
   })
-  
+
   # show the "predicted probabilities" header when the submit button is clicked
   output$predicted_species_header <- renderUI({
     if (submitClicked()) {
@@ -145,7 +137,7 @@ server <- function(input, output, session) {
   })
 
   base <- 0.3
-  
+
   # Render the images with opacity based on the prediction
   output$adelie_img <- renderUI({
     probs <- penguin_prediction()
@@ -157,7 +149,7 @@ server <- function(input, output, session) {
       class = "shiny-image-output"
     )
   })
-  
+
   output$chinstrap_img <- renderUI({
     probs <- penguin_prediction()
     opacity <- if (is.null(probs)) 1 else max(0.5, min(probs["Chinstrap"] + base, 1))
@@ -167,7 +159,7 @@ server <- function(input, output, session) {
       class = "shiny-image-output"
     )
   })
-  
+
   output$gentoo_img <- renderUI({
     probs <- penguin_prediction()
     opacity <- if (is.null(probs)) 1 else max(0.5, min(probs["Gentoo"] + base, 1))
@@ -177,33 +169,39 @@ server <- function(input, output, session) {
       class = "shiny-image-output"
     )
   })
-  
+
   # Render the text probabilities
   output$adelie <- renderText({
     probs <- penguin_prediction()
-    if (is.null(probs)) return("")
+    if (is.null(probs)) {
+      return("")
+    }
     glue::glue('{round(probs["Adelie"]*100, 2)}%')
   })
-  
+
   output$chinstrap <- renderText({
     probs <- penguin_prediction()
-    if (is.null(probs)) return("")
+    if (is.null(probs)) {
+      return("")
+    }
     glue::glue('{round(probs["Chinstrap"]*100, 2)}%')
   })
-  
+
   output$gentoo <- renderText({
     probs <- penguin_prediction()
-    if (is.null(probs)) return("")
+    if (is.null(probs)) {
+      return("")
+    }
     glue::glue('{round(probs["Gentoo"]*100, 2)}%')
   })
-  
+
   # Reset the inputs and outputs when the reset button is clicked
   observeEvent(input$reset, {
     updateNumericInput(session, "bill_length_mm", value = 46)
     updateNumericInput(session, "bill_depth_mm", value = 16)
     updateNumericInput(session, "flipper_length_mm", value = 185)
     updateNumericInput(session, "body_mass_g", value = 5000)
-    
+
     # Reset the prediction and hide the header
     penguin_prediction(NULL)
     submitClicked(FALSE)
